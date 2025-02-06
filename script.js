@@ -26,20 +26,22 @@ body {
     width: 80%;
     max-width: 420px;
     z-index: 10;
-    color: #222;
 }
 
 /* Заголовок */
 h1 {
-    font-size: 26px; 
-    font-weight: 600;
-    color: #111;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 /* Обычный текст */
 .message {
-    font-size: 18px;
-    color: #222;
+    font-size: 19px;
+    font-weight: 400;
+    color: white;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* Кнопка */
@@ -89,6 +91,8 @@ button:disabled {
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.6s ease, transform 0.6s ease;
+    color: white;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .hidden-message.show {
