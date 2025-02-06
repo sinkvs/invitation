@@ -61,6 +61,20 @@ button:hover {
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+.heart {
+    position: absolute;
+    top: -10vh;
+    font-size: 24px;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+
 .hidden-message.show {
     opacity: 1;
     transform: translateY(0);
