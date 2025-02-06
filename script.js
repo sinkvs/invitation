@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     button.addEventListener("click", function () {
         surprise.classList.add("show");
-
         button.innerText = "С праздником! 🎉";
         button.disabled = true;
     });
@@ -12,20 +11,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function createFallingHeart() {
     const heart = document.createElement("div");
-    heart.innerHTML = "🌸";
+    heart.innerHTML = "🌸"; // Можно заменить на "💖"
     heart.classList.add("heart");
     document.body.appendChild(heart);
 
     const startX = Math.random() * window.innerWidth;
     const duration = Math.random() * 3 + 2;
-    const delay = Math.random() * 2; // случайная задержка
+    const delay = Math.random() * 2;
 
     heart.style.left = `${startX}px`;
-    heart.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+    heart.style.animation = `fall ${duration}s linear ${delay}s forwards`;
 
     setTimeout(() => {
         heart.remove();
     }, (duration + delay) * 1000);
 }
 
-setInterval(createFallingHeart, 500);
+setInterval(createFallingHeart, 300);
