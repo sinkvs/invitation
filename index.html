@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>С 8 Марта!</title>
+    <title>Приветствие</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">Привет, дорогая коллега! 💐</h1>
-        <p class="message">Сегодня особенный день, ведь мы поздравляем самых прекрасных девушек с <span class="highlight">8 Марта!</span> Пусть этот день принесет <strong>радость</strong>, <strong>тепло</strong> и <strong>улыбки</strong>!</p>
-        <button id="reveal-btn">Нажми меня!</button>
-        <p id="surprise" class="hidden-message">С праздником!🤩</p>
+    <div class="container intro">
+        <h1 class="greeting">Привет, Надежда!</h1>
+        <p class="swipe-text">Смахни влево или нажми кнопку, чтобы продолжить</p>
+        <button id="next-btn">➡ Продолжить</button>
     </div>
-    <script src="script.js"></script>
+    <div class="container main hidden">
+        <h1>С праздником, Надежда!</h1>
+        <p class="message">Сегодня особенный день, и мы приготовили для тебя сюрприз 🎉</p>
+        <button id="reveal-btn">Нажми меня!</button>
+        <p id="surprise" class="hidden-message">Мы ждем тебя сегодня в 10:00 в кабинете! 🌸</p>
+    </div>
 </body>
 </html>
