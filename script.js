@@ -62,3 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   setInterval(createFlower, 300);
 });
+
+// Функция для проверки мобильного устройства
+function isMobile() {
+  return /Mobi|Android/i.test(navigator.userAgent);
+}
