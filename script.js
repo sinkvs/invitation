@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function createFlower() {
     var flower = document.createElement("div");
     flower.className = "flower";
-    // Используем эмодзи цветка, можно заменить на изображение
+    // Используем эмодзи цветка
     flower.innerText = "🌸";
     // Случайная горизонтальная позиция (от 0% до 100%)
     flower.style.left = Math.random() * 100 + "%";
