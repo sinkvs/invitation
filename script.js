@@ -1,24 +1,27 @@
 /* script.js */
 
-/* Проверка мобильного устройства */
+/**
+ * Проверка мобильного устройства (по userAgent).
+ */
 function isMobile() {
   return /Mobi|Android/i.test(navigator.userAgent);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+  // Если устройство не мобильное – показываем предупреждение.
   if (!isMobile()) {
     document.getElementById("main-container").style.display = "none";
     document.getElementById("non-mobile-warning").style.display = "flex";
     return;
   }
   
-  // Переход от приветствия к приглашению
+  // Переход от приветственной области к приглашению.
   document.getElementById("enter-button").addEventListener("click", function() {
     document.getElementById("welcome-area").style.display = "none";
     document.getElementById("invitation-area").style.display = "block";
   });
   
-  // Обновление обратного отсчёта до ближайших 10:00
+  // Функция обновления обратного отсчёта до ближайших 10:00.
   function updateCountdown() {
     var now = new Date();
     var target = new Date();
@@ -27,47 +30,50 @@ document.addEventListener("DOMContentLoaded", function() {
       target.setDate(target.getDate() + 1);
     }
     var diff = target - now;
-    var hours = Math.floor(diff / (1000 * 60 * 60));
-    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    var hrs = Math.floor(diff / (1000 * 60 * 60));
+    var mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    var secs = Math.floor((diff % (1000 * 60)) / 1000);
     
-    // Форматирование до двух цифр
-    hours = (hours < 10 ? "0" : "") + hours;
-    minutes = (minutes < 10 ? "0" : "") + minutes;
-    seconds = (seconds < 10 ? "0" : "") + seconds;
+    // Форматирование до двух цифр.
+    var hours = ("0" + hrs).slice(-2);
+    var minutes = ("0" + mins).slice(-2);
+    var seconds = ("0" + secs).slice(-2);
     
-    // Обновление flip-блоков для часов и минут
-    updateFlipUnit("hours-dizaines-", hours.charAt(0), 3);
-    updateFlipUnit("hours-unites-", hours.charAt(1));
-    updateFlipUnit("minutes-dizaines-", minutes.charAt(0), 6);
-    updateFlipUnit("minutes-unites-", minutes.charAt(1));
-    
-    // Обновление секунд – меняем поворот контейнера
-    updateSecondsFlip(seconds);
+    // Обновляем каждую единицу flip‑clock.
+    updateFlip("hours-tens", hours.charAt(0));
+    updateFlip("hours-ones", hours.charAt(1));
+    updateFlip("minutes-tens", minutes.charAt(0));
+    updateFlip("minutes-ones", minutes.charAt(1));
+    updateFlip("seconds-tens", seconds.charAt(0));
+    updateFlip("seconds-ones", seconds.charAt(1));
     
     setTimeout(updateCountdown, 500);
   }
   
-  // Функция обновления единицы flip (обновляем класс для эффекта)
-  function updateFlipUnit(prefix, newDigit, maxValue) {
-    newDigit = parseInt(newDigit, 10);
-    var outgoingDigit = (newDigit - 1 < 0) ? (maxValue !== undefined ? maxValue - 1 : 9) : newDigit - 1;
-    var newElem = document.getElementById(prefix + newDigit);
-    var outgoingElem = document.getElementById(prefix + outgoingDigit);
-    if (newElem) newElem.className = "number is-active";
-    if (outgoingElem) outgoingElem.className = "number outgoing";
-  }
-  
-  // Обновление секунд (вращаем контейнер на 6° за каждую секунду)
-  function updateSecondsFlip(secStr) {
-    var s = parseInt(secStr, 10);
-    var secondsElem = document.getElementById("seconds");
-    secondsElem.style.transform = "rotateX(" + (-s * 6) + "deg)";
+  /**
+   * Функция updateFlip – если цифра изменилась, запускает анимацию.
+   * unitId — идентификатор flip‑блока (например, "hours-tens")
+   * newDigit — новое значение (символ)
+   */
+  function updateFlip(unitId, newDigit) {
+    var unit = document.getElementById(unitId);
+    var currentDigit = unit.querySelector(".upper-card").innerText;
+    if (currentDigit !== newDigit) {
+      unit.classList.remove("flip");
+      // Принудительный reflow.
+      void unit.offsetWidth;
+      unit.classList.add("flip");
+      // Обновляем цифры после 250 мс (половина анимации).
+      setTimeout(function() {
+        unit.querySelector(".upper-card").innerText = newDigit;
+        unit.querySelector(".lower-card").innerText = newDigit;
+      }, 250);
+    }
   }
   
   updateCountdown();
   
-  // Анимация падающих цветочков
+  // Анимация падающих цветочков.
   function createFlower() {
     var flower = document.createElement("div");
     flower.className = "flower";
@@ -84,21 +90,4 @@ document.addEventListener("DOMContentLoaded", function() {
     }, (duration + parseFloat(flower.style.animationDelay)) * 1000);
   }
   setInterval(createFlower, 500);
-  
-  // Радио (аудио-плеер)
-  var radio = document.createElement("AUDIO");
-  radio.setAttribute("src", "http://blobfolio.com/codepenfiles/atc-flip-clock/390917_AhWilderness.mp3");
-  radio.setAttribute("id", "radio-player");
-  radio.setAttribute("loop", "true");
-  var radioBtn = document.getElementById("radio-btn");
-  radioBtn.addEventListener("click", function() {
-    if (radioBtn.className.indexOf("is-active") > -1) {
-      radioBtn.className = "btn radio-btn";
-      radio.muted = true;
-    } else {
-      radioBtn.className = "btn radio-btn is-active";
-      radio.play();
-      radio.muted = false;
-    }
-  });
 });
