@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Приглашение на 8 марта</title>
-  <!-- Подключаем Google Fonts: Pacifico для приветствия и Orbitron для цифровых элементов -->
+  <!-- Подключаем Google Fonts: Pacifico для приветствия и Orbitron для цифр -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <!-- Подключаем файл со стилями -->
   <link rel="stylesheet" href="style.css">
@@ -26,8 +26,23 @@
 
     <!-- Область приглашения (скрыта по умолчанию) -->
     <div id="invitation-area" style="display: none;">
-      <!-- Динамический обратный отсчёт -->
-      <div id="countdown"></div>
+      <!-- Flip clock обратного отсчёта -->
+      <div id="flip-clock">
+        <div class="flip-unit">
+          <div class="upper-card" id="hours-upper">00</div>
+          <div class="lower-card" id="hours-lower">00</div>
+        </div>
+        <span class="separator">:</span>
+        <div class="flip-unit">
+          <div class="upper-card" id="minutes-upper">00</div>
+          <div class="lower-card" id="minutes-lower">00</div>
+        </div>
+        <span class="separator">:</span>
+        <div class="flip-unit">
+          <div class="upper-card" id="seconds-upper">00</div>
+          <div class="lower-card" id="seconds-lower">00</div>
+        </div>
+      </div>
       <!-- Презентабельное приглашение -->
       <h2>Приглашаем в кабинет №1 в 10:00</h2>
     </div>
