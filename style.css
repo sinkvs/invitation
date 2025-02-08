@@ -17,7 +17,6 @@ body {
   overflow: hidden;
 }
 
-/* Анимация градиента фона */
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -40,7 +39,7 @@ body {
   text-align: center;
 }
 
-/* Приветствие "Привет, Надежда!" с прикольным шрифтом */
+/* Заголовок с прикольным шрифтом */
 #welcome-area h1 {
   font-family: 'Pacifico', cursive;
   font-size: 36px;
@@ -62,7 +61,6 @@ body {
   overflow: hidden;
 }
 
-/* Псевдоэлемент для эффекта перелива */
 #enter-button::before {
   content: '';
   position: absolute;
@@ -85,23 +83,70 @@ body {
   text-align: center;
 }
 
-/* Стилизация обратного отсчёта с эффектом flip */
-#countdown {
+/* Flip clock стили */
+#flip-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Orbitron', monospace;
+  margin-bottom: 20px;
+}
+
+.flip-unit {
+  position: relative;
+  width: 60px;
+  height: 80px;
+  margin: 0 5px;
+  perspective: 200px;
+}
+
+.upper-card,
+.lower-card {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  line-height: 40px;
   font-size: 32px;
   color: #fff;
-  margin-bottom: 20px;
-  text-align: center;
+  background: #ff1493;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#countdown.flip {
-  animation: flip 0.5s;
+.upper-card {
+  top: 0;
+  border-bottom: 1px solid #e60073;
 }
 
-@keyframes flip {
-  0% { transform: rotateX(0deg); }
-  50% { transform: rotateX(90deg); }
-  100% { transform: rotateX(0deg); }
+.lower-card {
+  bottom: 0;
+  border-top: 1px solid #e60073;
+}
+
+/* Анимация flip для смены значений */
+.flip {
+  animation: flipAnimation 0.7s forwards;
+}
+
+@keyframes flipAnimation {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+/* Стили для разделителя между единицами */
+.separator {
+  font-size: 32px;
+  color: #fff;
+  margin: 0 5px;
 }
 
 /* Презентабельное оформление приглашения */
@@ -142,12 +187,11 @@ body {
 /* Стили для отдельного цветочка */
 .flower {
   position: absolute;
-  top: -50px; /* стартовая позиция чуть выше экрана */
+  top: -50px;
   font-size: 24px;
   animation: fall linear infinite;
 }
 
-/* Анимация падения цветочка */
 @keyframes fall {
   0% {
     transform: translateY(0px) rotate(0deg);
