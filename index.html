@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Приглашение на 8 марта</title>
-  <!-- Подключаем файл со стилями (фон и шрифты – как в оригинале) -->
+  <!-- Подключаем файл со стилями -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Предупреждение для не мобильных устройств -->
+  <!-- Блок предупреждения для не мобильных устройств -->
   <div id="non-mobile-warning" style="display: none;">
     <p>Доступ только с мобильных устройств.<br>Пожалуйста, откройте страницу на мобильном устройстве.</p>
   </div>
 
-  <!-- Основной контейнер -->
+  <!-- Основной контейнер с содержимым -->
   <div id="main-container">
     <!-- Приветственная область -->
     <div id="welcome-area">
@@ -22,45 +22,18 @@
       <button id="enter-button">Нажми сюда</button>
     </div>
 
-    <!-- Область приглашения (скрыта по умолчанию) -->
+    <!-- Область с приглашением (скрыта по умолчанию) -->
     <div id="invitation-area" style="display: none;">
-      <!-- Контейнер для flip‑clock таймера -->
-      <div id="flip-clock">
-        <div class="flip-unit" id="hours-tens">
-          <div class="upper-card">0</div>
-          <div class="lower-card">0</div>
-        </div>
-        <div class="flip-unit" id="hours-ones">
-          <div class="upper-card">0</div>
-          <div class="lower-card">0</div>
-        </div>
-        <span class="separator">:</span>
-        <div class="flip-unit" id="minutes-tens">
-          <div class="upper-card">0</div>
-          <div class="lower-card">0</div>
-        </div>
-        <div class="flip-unit" id="minutes-ones">
-          <div class="upper-card">0</div>
-          <div class="lower-card">0</div>
-        </div>
-        <span class="separator">:</span>
-        <div class="flip-unit" id="seconds-tens">
-          <div class="upper-card">0</div>
-          <div class="lower-card">0</div>
-        </div>
-        <div class="flip-unit" id="seconds-ones">
-          <div class="upper-card">0</div>
-          <div class="lower-card">0</div>
-        </div>
-      </div>
+      <!-- Область обратного отсчёта -->
+      <div id="countdown"></div>
       <h2>Приглашаем в кабинет №1 в 10:00</h2>
     </div>
   </div>
 
-  <!-- Контейнер для падающих цветочков -->
+  <!-- Контейнер для анимации падающих цветочков -->
   <div id="flowers-container"></div>
 
-  <!-- Подключаем скрипт -->
+  <!-- Подключаем JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
