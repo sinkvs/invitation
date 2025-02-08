@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   /**
-   * Обновление обратного отсчёта до ближайших 10:00 с эффектом flip.
+   * Функция для вычисления оставшегося времени до ближайших 10:00.
    * Если текущее время ≥ 10:00, цель – 10:00 следующего дня.
    */
-  function updateCountdown() {
+  function getTimeRemaining() {
     var now = new Date();
     var target = new Date(now);
     target.setHours(10, 0, 0, 0);
@@ -37,42 +37,65 @@ document.addEventListener("DOMContentLoaded", function() {
     var hours = Math.floor(diff / (1000 * 60 * 60));
     var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    var countdownEl = document.getElementById("countdown");
-    countdownEl.innerText =
-      hours.toString().padStart(2, '0') + ":" +
-      minutes.toString().padStart(2, '0') + ":" +
-      seconds.toString().padStart(2, '0');
-    // Триггерим эффект flip
-    countdownEl.classList.remove("flip");
-    void countdownEl.offsetWidth; // принудительный reflow
-    countdownEl.classList.add("flip");
+    return {
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds
+    };
   }
 
-  setInterval(updateCountdown, 1000);
-  updateCountdown();
+  /**
+   * Обновление flip clock.
+   * Для каждого элемента (часы, минуты, секунды) обновляем значения с эффектом flip.
+   */
+  function updateFlipClock() {
+    var timeRemaining = getTimeRemaining();
+    updateUnit("hours", timeRemaining.hours);
+    updateUnit("minutes", timeRemaining.minutes);
+    updateUnit("seconds", timeRemaining.seconds);
+  }
 
   /**
-   * Функция создания одного цветочка с рандомными параметрами:
-   * горизонтальная позиция, длительность, задержка и размер.
+   * Обновление отдельной единицы времени с эффектом flip.
+   * idUnit - "hours", "minutes" или "seconds"
+   * value - числовое значение единицы времени
+   */
+  function updateUnit(idUnit, value) {
+    var formattedValue = value.toString().padStart(2, '0');
+    var upperEl = document.getElementById(idUnit + "-upper");
+    var lowerEl = document.getElementById(idUnit + "-lower");
+
+    // Если значение изменилось, запускаем анимацию flip
+    if (upperEl.innerText !== formattedValue) {
+      upperEl.innerText = formattedValue;
+      lowerEl.innerText = formattedValue;
+      // Добавляем класс flip для анимации, а затем удаляем его
+      lowerEl.classList.add("flip");
+      setTimeout(function() {
+        lowerEl.classList.remove("flip");
+      }, 700);
+    }
+  }
+
+  // Запускаем обновление flip clock каждую секунду
+  setInterval(updateFlipClock, 1000);
+  updateFlipClock();
+
+  /**
+   * Функция создания одного цветочка с рандомными параметрами.
    */
   function createFlower() {
     var flower = document.createElement("div");
     flower.className = "flower";
-    // Используем эмодзи цветочка
     flower.innerText = "🌸";
-    // Случайная позиция по горизонтали
     flower.style.left = Math.random() * 100 + "%";
-    // Длительность анимации от 5 до 10 секунд
     var duration = Math.random() * 5 + 5;
     flower.style.animationDuration = duration + "s";
-    // Случайная задержка перед стартом анимации (до 5 секунд)
     flower.style.animationDelay = Math.random() * 5 + "s";
-    // Случайный размер цветочка от 20px до 30px
     var size = Math.random() * 10 + 20;
     flower.style.fontSize = size + "px";
 
     document.getElementById("flowers-container").appendChild(flower);
-    // Удаляем элемент после завершения анимации
     setTimeout(function() {
       flower.remove();
     }, (duration + parseFloat(flower.style.animationDelay)) * 1000);
