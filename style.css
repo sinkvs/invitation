@@ -1,204 +1,207 @@
-/* style.css */
+/* Преобразованный CSS (основа взята из вашего SCSS) */
 
-/* Сброс базовых стилей */
-* {
+/* Фон с градиентным переливом */
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-/* Анимированный розовый фон с плавным переливом */
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ff69b4);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-  color: #333;
+  font-family: 'ATC Duel', Arial, sans-serif;
+  text-align: center;
+  background: #6fd1b5; /* map-get($colors-green, 200) */
   overflow: hidden;
 }
 
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Анимированный градиент для нашего предыдущего решения можно оставить для welcome-страницы,
+   а для flip-clock здесь заданы стили согласно оригиналу */
+.clock-wrapper,
+.minutes,
+.hours,
+.unites,
+.dizaines,
+.number,
+.logo,
+.btn,
+.seconds-wrapper,
+.seconds,
+.second,
+.up,
+.down,
+.digit,
+.knob,
+.knob-lines,
+.bg {
+  position: absolute;
 }
 
-/* Контейнер с основным содержимым */
-#main-container {
+/* Стили для clock-wrapper */
+.clock-wrapper {
   position: relative;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   z-index: 1;
+  display: inline-block;
+  margin: 33.5vmin 8.5vmin;
+  width: 83vmin;
+  height: 26.5vmin;
 }
-
-/* Приветственная область */
-#welcome-area {
-  text-align: center;
-}
-
-/* Заголовок с прикольным шрифтом */
-#welcome-area h1 {
-  font-family: 'Pacifico', cursive;
-  font-size: 36px;
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-  margin-bottom: 20px;
-}
-
-/* Кнопка с переливающимся эффектом */
-#enter-button {
-  padding: 15px 30px;
-  font-size: 18px;
-  color: #fff;
-  background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-#enter-button::before {
+.clock-wrapper:before {
+  right: 5vmin;
+  bottom: -4vmin;
+  left: 5vmin;
+  display: block;
+  height: 4vmin;
+  background: #eadfb5; /* map-get($colors-beige, 200) */
+  border-top: 1vmin solid #6ac5a9; /* map-get($colors-green, 300) */
   content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
+  transform: perspective(200px) rotateX(10deg);
+}
+.clock-wrapper:after {
+  bottom: -4vmin;
+  z-index: -1;
+  display: block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  transform: skewX(-25deg);
-  animation: shimmer 2s infinite;
+  background: #6ac5a9; /* map-get($colors-green, 300) */
+  border-radius: 1vmin;
+  content: '';
+  transform: perspective(100vmin) rotateX(60deg) skew(60deg);
+  transform-origin: bottom right;
 }
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
-/* Область приглашения */
-#invitation-area {
-  text-align: center;
-}
-
-/* Flip clock стили */
-#flip-clock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Orbitron', monospace;
-  margin-bottom: 20px;
-}
-
-.flip-unit {
-  position: relative;
-  width: 60px;
-  height: 80px;
-  margin: 0 5px;
-  perspective: 200px;
-}
-
-.upper-card,
-.lower-card {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-  line-height: 40px;
-  font-size: 32px;
-  color: #fff;
-  background: #ff1493;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.upper-card {
-  top: 0;
-  border-bottom: 1px solid #e60073;
-}
-
-.lower-card {
-  bottom: 0;
-  border-top: 1px solid #e60073;
-}
-
-/* Анимация flip для смены значений */
-.flip {
-  animation: flipAnimation 0.7s forwards;
-}
-
-@keyframes flipAnimation {
-  0% {
-    transform: rotateX(0deg);
-  }
-  50% {
-    transform: rotateX(-90deg);
-  }
-  100% {
-    transform: rotateX(0deg);
-  }
-}
-
-/* Стили для разделителя между единицами */
-.separator {
-  font-size: 32px;
-  color: #fff;
-  margin: 0 5px;
-}
-
-/* Презентабельное оформление приглашения */
-#invitation-area h2 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 28px;
-  color: #fff;
-  background: rgba(255, 105, 180, 0.7);
-  padding: 15px 20px;
-  border-radius: 10px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-}
-
-/* Предупреждение для не мобильных устройств */
-#non-mobile-warning {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  background: #fff;
-}
-
-/* Контейнер для анимации падающих цветочков */
-#flowers-container {
-  position: fixed;
-  top: 0;
-  left: 0;
+.bg {
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  background: #eeead1; /* map-get($colors-beige, 100) */
+  border-radius: 1vmin;
+}
+
+/* Стили для секундного блока – из оригинала */
+.seconds-wrapper {
+  top: 5vmin;
+  right: 16vmin;
+  bottom: 5vmin;
+  width: 8vmin;
   overflow: hidden;
-  z-index: 0;
+  background: #472c4b; /* map-get($colors-purple, 200) */
+  border-radius: 0.5vmin;
 }
-
-/* Стили для отдельного цветочка */
-.flower {
-  position: absolute;
-  top: -50px;
-  font-size: 24px;
-  animation: fall linear infinite;
+.seconds-wrapper:before {
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  display: block;
+  border: 1vmin solid transparent;
+  border-right-width: 3.66vmin;
+  border-left: 3.66vmin solid #f85302; /* map-get($colors-red, 100) */
+  content: '';
+  transform: translateY(-50%);
 }
+.seconds {
+  top: 50%;
+  margin-top: 1.3vmin;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  /* Отключаем автоматическую анимацию – мы будем обновлять transform через JS */
+  animation: none;
+}
+.second {
+  font-size: 1.5vmin;
+  color: #fdb800; /* map-get($colors-yellow, 100) */
+  text-align: center;
+  white-space: nowrap;
+  line-height: 2.6vmin;
+  letter-spacing: 0.05em;
+  backface-visibility: hidden;
+}
+.second:before {
+  display: inline-block;
+  margin: -0.3vmin 1.3vmin 0 1vmin;
+  width: 2.6vmin;
+  height: 0.26vmin;
+  background: currentColor;
+  content: '';
+  vertical-align: middle;
+}
+/* Остальные стили (для .btn, .logo, .minutes, .hours и flip-анимации)
+   можно оставить без изменений из вашего оригинала – они отвечают за визуальные эффекты flip */
+.btn {
+  top: 12.5vmin;
+  right: 5vmin;
+  padding: 1.3vmin 0 1.1vmin;
+  width: 6.5vmin;
+  background: currentColor;
+  box-shadow: inset 0 0 3vmin rgba(0,0,0,0.2), 0 0 6vmin rgba(255,255,255,0.75);
+  color: #10ffa6; /* map-get($colors-green, 100) */
+  line-height: 1;
+  font-family: 'ATC Timberline';
+  font-size: 1vmin;
+  text-transform: uppercase;
+  text-align: center;
+}
+.radio-btn {
+  top: auto;
+  bottom: 5vmin;
+  cursor: pointer;
+  box-shadow: inset 0 0 3vmin rgba(0,0,0,0.2), 0 0 6vmin rgba(0,255,255,0.75);
+  color: #00f1ff; /* map-get($colors-blue, 100) */
+  transition: box-shadow 0.3s;
+}
+.radio-btn span { 
+  color: rgba(255,255,255,0.7); 
+}
+.radio-btn:hover,
+.radio-btn.is-active {
+  box-shadow: inset 0 0 3vmin rgba(0,0,0,0.3), 0 0 6vmin rgba(0,255,255,1);
+}
+.logo {
+  top: 5vmin;
+  right: 5vmin;
+  font-family: 'ATC Timberline';
+  color: #472c4b; /* map-get($colors-purple, 200) */
+  text-transform: uppercase;
+  font-size: 2.6vmin;
+  line-height: 1;
+}
+/* Стили для минут и часов – аналогичны оригиналу */
+.minutes,
+.hours {
+  top: 5vmin;
+  bottom: 5vmin;
+  width: 25vmin;
+}
+.minutes { right: 26vmin; }
+.hours { left: 5vmin; }
+.dizaines { left: 0; width: calc(50% - 1vmin); }
+.unites { right: 0; width: calc(50% - 1vmin); }
 
-@keyframes fall {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(110vh) rotate(360deg);
-    opacity: 0;
-  }
+/* Flip-анимации для .number (is-active и outgoing) */
+.number {
+  width: 100%;
+  height: 16.5vmin;
+  color: #fdb800;
+  font-size: 12vmin;
+  line-height: 16vmin;
+}
+.is-active { 
+  /* При появлении цифры активной можно добавить анимацию смены */
+  animation: zIndexUp 0.5s forwards;
+}
+.outgoing { 
+  animation: zIndexDown 0.5s forwards;
+}
+@keyframes zIndexUp { from { z-index: 1; } to { z-index: 2; } }
+@keyframes zIndexDown { from { z-index: 2; } to { z-index: 1; } }
+.up, .down {
+  width: 100%;
+  height: calc(50% - 1px);
+  overflow: hidden;
+  background: #472c4b;
+  border-radius: 0.7vmin;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.up { 
+  top: 0; 
+  transform-origin: bottom center;
+}
+.down { 
+  bottom: 0; 
+  transform: perspective(100vmin) rotateX(180deg);
+  transform-origin: top center;
 }
