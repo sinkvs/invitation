@@ -2,27 +2,38 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Поздравление для Надежды</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Приглашение на 8 марта</title>
+  <!-- Подключаем файл со стилями -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Первая секция: Приветствие -->
-  <section id="section1" class="section">
-    <div class="content">
-      <h1 class="greeting">Привет, Надежда!</h1>
-      <p class="instruction">Нажми кнопку или смахни вверх, чтобы продолжить</p>
-      <button id="nextBtn" class="btn">➡ Продолжить</button>
+  <!-- Блок предупреждения для не мобильных устройств -->
+  <div id="non-mobile-warning" style="display: none;">
+    <p>Доступ только с мобильных устройств.<br>Пожалуйста, откройте страницу на мобильном устройстве.</p>
+  </div>
+
+  <!-- Основной контейнер с содержимым -->
+  <div id="main-container">
+    <!-- Приветственная область -->
+    <div id="welcome-area">
+      <h1>Привет, Надежда!</h1>
+      <!-- Кнопка с эффектом перелива -->
+      <button id="enter-button">Нажми сюда</button>
     </div>
-  </section>
-  
-  <!-- Вторая секция: Приглашение -->
-  <section id="section2" class="section">
-    <div class="content">
-      <h1 class="invitation">Мы ждем тебя сегодня в 10:00 в кабинете!</h1>
+
+    <!-- Область с приглашением (скрыта по умолчанию) -->
+    <div id="invitation-area" style="display: none;">
+      <!-- Область обратного отсчёта -->
+      <div id="countdown"></div>
+      <h2>Приглашаем в кабинет №1 в 10:00</h2>
     </div>
-  </section>
-  
+  </div>
+
+  <!-- Контейнер для анимации падающих цветочков -->
+  <div id="flowers-container"></div>
+
+  <!-- Подключаем JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
