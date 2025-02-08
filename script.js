@@ -1,19 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Если устройство не мобильное, показываем предупреждение и скрываем основной контент
+  // Проверка мобильного устройства
   if (!isMobile()) {
     document.getElementById("main-container").style.display = "none";
     document.getElementById("non-mobile-warning").style.display = "flex";
     return;
   }
 
-  // Обработка нажатия на кнопку
+  // Кнопка "Войти"
   const enterButton = document.getElementById("enter-button");
   enterButton.addEventListener("click", function () {
     document.getElementById("welcome-area").style.display = "none";
     document.getElementById("invitation-area").style.display = "block";
   });
 
-  // Обновление обратного отсчёта
+  // Обратный отсчет
   function updateCountdown() {
     const now = new Date();
     const target = new Date(now);
@@ -41,24 +41,24 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  // Создание падающих цветочков
+  // Падающие цветочки
   function createFlower() {
     const flower = document.createElement("div");
     flower.className = "flower";
     flower.innerText = "🌸";
     flower.style.left = Math.random() * 100 + "%";
-    const duration = Math.random() * 5 + 5;
-    flower.style.animationDuration = duration + "s";
+    flower.style.top = Math.random() * 20 - 20 + "px";
+    flower.style.animationDuration = Math.random() * 5 + 8 + "s";
     flower.style.animationDelay = Math.random() * 2 + "s";
-    flower.style.fontSize = Math.random() * 10 + 20 + "px";
+    flower.style.transform = `rotate(${Math.random() * 360}deg)`;
+    flower.style.fontSize = Math.random() * 20 + 30 + "px";
 
-    document.getElementById("flowers-container").appendChild(flower);
+    const container = document.getElementById("flowers-container");
+    container.appendChild(flower);
 
-    // Удаляем цветочек после завершения анимации
-    flower.addEventListener("animationend", function () {
-      flower.remove();
-    });
+    // Удаление элемента после завершения анимации
+    flower.addEventListener("animationend", () => flower.remove());
   }
 
-  setInterval(createFlower, 500);
+  setInterval(createFlower, 300);
 });
