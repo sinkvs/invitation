@@ -1,3 +1,5 @@
+/* style.css */
+
 /* Сброс базовых стилей */
 * {
   margin: 0;
@@ -5,12 +7,12 @@
   box-sizing: border-box;
 }
 
-/* Основной стиль для body — фон и шрифт как в оригинале */
+/* Основной стиль для body */
 body {
   font-family: Arial, sans-serif;
   background: #f0f8ff; /* светлый, приятный фон */
   color: #333;
-  overflow: hidden; /* чтобы анимация не вызывала прокрутку */
+  overflow: hidden; /* скрываем скролл, чтобы анимация не вызывала прокрутку */
 }
 
 /* Контейнер с основным содержимым */
@@ -23,15 +25,17 @@ body {
   justify-content: center;
 }
 
-/* Приветственная область */
+/* Стилизация приветственной области */
 #welcome-area {
   text-align: center;
 }
-#welcome-area h1 {
-  font-size: 36px;
-  color: #333;
-  margin-bottom: 20px;
+
+/* Стилизация области приглашения */
+#invitation-area {
+  text-align: center;
 }
+
+/* Стилизация кнопки с эффектом перелива */
 #enter-button {
   margin-top: 20px;
   padding: 15px 30px;
@@ -44,6 +48,8 @@ body {
   position: relative;
   overflow: hidden;
 }
+
+/* Псевдоэлемент для переливающегося эффекта на кнопке */
 #enter-button::before {
   content: '';
   position: absolute;
@@ -51,99 +57,65 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.6), transparent);
   transform: skewX(-25deg);
   animation: shimmer 2s infinite;
 }
+
+/* Ключевые кадры анимации перелива */
 @keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
-/* Область приглашения */
-#invitation-area {
-  text-align: center;
-}
-
-/* Flip clock — стили для аккуратного выравнивания */
-#flip-clock {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Стили для обратного отсчёта */
+#countdown {
+  font-size: 24px;
   margin-bottom: 20px;
 }
-.flip-unit {
-  position: relative;
-  width: 50px;
-  height: 70px;
-  perspective: 100px;
-  margin: 0 5px;
-  background: #fff;
-  border: 2px solid #ddd;
-  border-radius: 5px;
-}
-.upper-card,
-.lower-card {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-  line-height: 35px;
-  font-size: 32px;
-  color: #333;
-  background: #f0f8ff;
-  border: 1px solid #ddd;
+
+/* Стилизация предупреждения для не мобильных устройств */
+#non-mobile-warning {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.upper-card {
-  top: 0;
-  border-bottom: none;
-}
-.lower-card {
-  bottom: 0;
-  border-top: none;
-}
-.separator {
-  font-size: 32px;
-  padding: 0 5px;
-  color: #333;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
 }
 
-/* При переключении цифр добавляем класс flip для анимации */
-.flip-unit.flip .upper-card {
-  animation: flipUp 0.5s forwards;
-}
-.flip-unit.flip .lower-card {
-  animation: flipDown 0.5s forwards;
-}
-@keyframes flipUp {
-  0% { transform: rotateX(0deg); }
-  50% { transform: rotateX(-90deg); }
-  100% { transform: rotateX(0deg); }
-}
-@keyframes flipDown {
-  0% { transform: rotateX(90deg); }
-  50% { transform: rotateX(0deg); }
-  100% { transform: rotateX(90deg); }
-}
-
-/* Стили для падающих цветочков */
+/* Контейнер для анимации падающих цветочков */
 #flowers-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  pointer-events: none; /* не перехватываем клики */
   overflow: hidden;
 }
+
+/* Стили для отдельного цветочка */
 .flower {
   position: absolute;
+  /* Используем размер иконки, можно заменить на изображение при необходимости */
   font-size: 24px;
   animation: fall linear infinite;
 }
+
+/* Ключевые кадры анимации падения цветочка */
 @keyframes fall {
-  0% { transform: translateY(-10%) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(110%) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translateY(-10%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110%) rotate(360deg);
+    opacity: 0;
+  }
 }
