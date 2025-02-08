@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Приглашение на 8 марта</title>
+  <!-- Подключаем Google Fonts: Pacifico для приветствия и Orbitron для цифровых элементов -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <!-- Подключаем файл со стилями -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Блок предупреждения для не мобильных устройств -->
+  <!-- Предупреждение для не мобильных устройств -->
   <div id="non-mobile-warning" style="display: none;">
     <p>Доступ только с мобильных устройств.<br>Пожалуйста, откройте страницу на мобильном устройстве.</p>
   </div>
@@ -22,10 +24,11 @@
       <button id="enter-button">Нажми сюда</button>
     </div>
 
-    <!-- Область с приглашением (скрыта по умолчанию) -->
+    <!-- Область приглашения (скрыта по умолчанию) -->
     <div id="invitation-area" style="display: none;">
-      <!-- Область обратного отсчёта -->
+      <!-- Динамический обратный отсчёт -->
       <div id="countdown"></div>
+      <!-- Презентабельное приглашение -->
       <h2>Приглашаем в кабинет №1 в 10:00</h2>
     </div>
   </div>
