@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
   enterButton.addEventListener("click", function () {
     document.getElementById("welcome-area").style.display = "none";
     document.getElementById("invitation-area").style.display = "block";
+    updateCountdown(); // Запускаем таймер после нажатия кнопки
   });
 
   /**
@@ -50,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Обновляем обратный отсчёт каждую секунду
   setInterval(updateCountdown, 1000);
-  updateCountdown();
 
   /**
    * Функция создания одного цветочка с рандомными параметрами:
