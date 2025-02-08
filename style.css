@@ -8,7 +8,7 @@
 /* Основной стиль для body */
 body {
   font-family: 'Dancing Script', Arial, sans-serif;
-  background: #f0f8ff; /* светлый, приятный фон */
+  background: #ffcccb; /* розоватый фон */
   color: #333;
   overflow: hidden; /* скрываем скролл, чтобы анимация не вызывала прокрутку */
 }
@@ -37,14 +37,20 @@ body {
 #enter-button {
   margin-top: 20px;
   padding: 15px 30px;
-  font-size: 18px;
+  font-size: 24px;
   color: #fff;
-  background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4);
+  background: linear-gradient(45deg, #ff6f61, #ffcccb);
   border: none;
   border-radius: 50px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+/* Эффект при наведении на кнопку */
+#enter-button:hover {
+  transform: scale(1.1);
 }
 
 /* Псевдоэлемент для переливающегося эффекта на кнопке */
@@ -72,8 +78,9 @@ body {
 
 /* Стили для обратного отсчёта */
 #countdown {
-  font-size: 24px;
+  font-size: 28px;
   margin-bottom: 20px;
+  color: #ff6f61;
 }
 
 /* Стилизация предупреждения для не мобильных устройств */
@@ -120,6 +127,7 @@ body {
 /* Стилизация заголовка */
 h1 {
   font-family: 'Dancing Script', cursive;
-  font-size: 2.5em;
+  font-size: 3em;
   margin-bottom: 20px;
+  color: #ff6f61;
 }
