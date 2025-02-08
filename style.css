@@ -7,12 +7,21 @@
   box-sizing: border-box;
 }
 
-/* Основной стиль для body */
+/* Анимированный розовый фон с плавным переливом */
 body {
   font-family: Arial, sans-serif;
-  background: #f0f8ff; /* светлый, приятный фон */
+  background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ff69b4);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
   color: #333;
-  overflow: hidden; /* скрываем скролл, чтобы анимация не вызывала прокрутку */
+  overflow: hidden;
+}
+
+/* Анимация градиента фона */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Контейнер с основным содержимым */
@@ -23,21 +32,25 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
-/* Стилизация приветственной области */
+/* Приветственная область */
 #welcome-area {
   text-align: center;
 }
 
-/* Стилизация области приглашения */
-#invitation-area {
-  text-align: center;
+/* Приветствие "Привет, Надежда!" с прикольным шрифтом */
+#welcome-area h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
 }
 
-/* Стилизация кнопки с эффектом перелива */
+/* Кнопка с переливающимся эффектом */
 #enter-button {
-  margin-top: 20px;
   padding: 15px 30px;
   font-size: 18px;
   color: #fff;
@@ -49,7 +62,7 @@ body {
   overflow: hidden;
 }
 
-/* Псевдоэлемент для переливающегося эффекта на кнопке */
+/* Псевдоэлемент для эффекта перелива */
 #enter-button::before {
   content: '';
   position: absolute;
@@ -62,23 +75,47 @@ body {
   animation: shimmer 2s infinite;
 }
 
-/* Ключевые кадры анимации перелива */
 @keyframes shimmer {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
-/* Стили для обратного отсчёта */
+/* Область приглашения */
+#invitation-area {
+  text-align: center;
+}
+
+/* Стилизация обратного отсчёта с эффектом flip */
 #countdown {
-  font-size: 24px;
+  font-family: 'Orbitron', monospace;
+  font-size: 32px;
+  color: #fff;
   margin-bottom: 20px;
+  text-align: center;
 }
 
-/* Стилизация предупреждения для не мобильных устройств */
+#countdown.flip {
+  animation: flip 0.5s;
+}
+
+@keyframes flip {
+  0% { transform: rotateX(0deg); }
+  50% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+/* Презентабельное оформление приглашения */
+#invitation-area h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  color: #fff;
+  background: rgba(255, 105, 180, 0.7);
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Предупреждение для не мобильных устройств */
 #non-mobile-warning {
   display: flex;
   align-items: center;
@@ -87,6 +124,7 @@ body {
   text-align: center;
   padding: 20px;
   font-size: 20px;
+  background: #fff;
 }
 
 /* Контейнер для анимации падающих цветочков */
@@ -96,26 +134,27 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* не перехватываем клики */
+  pointer-events: none;
   overflow: hidden;
+  z-index: 0;
 }
 
 /* Стили для отдельного цветочка */
 .flower {
   position: absolute;
-  /* Используем размер иконки, можно заменить на изображение при необходимости */
+  top: -50px; /* стартовая позиция чуть выше экрана */
   font-size: 24px;
   animation: fall linear infinite;
 }
 
-/* Ключевые кадры анимации падения цветочка */
+/* Анимация падения цветочка */
 @keyframes fall {
   0% {
-    transform: translateY(-10%) rotate(0deg);
+    transform: translateY(0px) rotate(0deg);
     opacity: 1;
   }
   100% {
-    transform: translateY(110%) rotate(360deg);
+    transform: translateY(110vh) rotate(360deg);
     opacity: 0;
   }
 }
