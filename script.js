@@ -8,7 +8,7 @@ function isMobile() {
   return /Mobi|Android/i.test(navigator.userAgent);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Если устройство не мобильное, показываем предупреждение и скрываем основной контент
   if (!isMobile()) {
     document.getElementById("main-container").style.display = "none";
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Обработка нажатия на кнопку: скрываем приветственную область и показываем приглашение
   var enterButton = document.getElementById("enter-button");
-  enterButton.addEventListener("click", function() {
+  enterButton.addEventListener("click", function () {
     document.getElementById("welcome-area").style.display = "none";
     document.getElementById("invitation-area").style.display = "block";
   });
@@ -41,9 +41,11 @@ document.addEventListener("DOMContentLoaded", function() {
     var seconds = Math.floor((diff % (1000 * 60)) / 1000);
     document.getElementById("countdown").innerText =
       "Осталось: " +
-      hours.toString().padStart(2, '0') + ":" +
-      minutes.toString().padStart(2, '0') + ":" +
-      seconds.toString().padStart(2, '0');
+      hours.toString().padStart(2, "0") +
+      ":" +
+      minutes.toString().padStart(2, "0") +
+      ":" +
+      seconds.toString().padStart(2, "0");
   }
 
   // Обновляем обратный отсчёт каждую секунду
@@ -73,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("flowers-container").appendChild(flower);
 
     // Удаляем элемент после завершения анимации
-    setTimeout(function() {
+    setTimeout(function () {
       flower.remove();
     }, duration * 1000);
   }
