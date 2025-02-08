@@ -1,39 +1,27 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Приглашение на 8 марта</title>
-  <!-- Подключаем файл со стилями -->
+  <title>Привет, Надежда!</title>
+  <!-- Подключение шрифта Dancing Script -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Блок предупреждения для не мобильных устройств -->
-  <div id="non-mobile-warning" style="display: none;">
-    <p>Доступ только с мобильных устройств.<br>Пожалуйста, откройте страницу на мобильном устройстве.</p>
-  </div>
-
-  <!-- Основной контейнер с содержимым -->
   <div id="main-container">
-    <!-- Приветственная область -->
     <div id="welcome-area">
       <h1>Привет, Надежда!</h1>
-      <!-- Кнопка с эффектом перелива -->
-      <button id="enter-button">Нажми сюда</button>
-    </div>
-
-    <!-- Область с приглашением (скрыта по умолчанию) -->
-    <div id="invitation-area" style="display: none;">
-      <!-- Область обратного отсчёта -->
       <div id="countdown"></div>
-      <h2>Приглашаем в кабинет №1 в 10:00</h2>
+      <div id="flowers-container"></div>
+      <button id="enter-button">Войти</button>
+    </div>
+    <div id="invitation-area" style="display:none;">
+      <!-- Контент приглашения -->
+      <p>Добро пожаловать!</p>
     </div>
   </div>
-
-  <!-- Контейнер для анимации падающих цветочков -->
-  <div id="flowers-container"></div>
-
-  <!-- Подключаем JavaScript -->
+  <div id="non-mobile-warning" style="display:none;">Это приложение только для мобильных устройств.</div>
   <script src="script.js"></script>
 </body>
 </html>
