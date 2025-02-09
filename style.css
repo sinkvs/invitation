@@ -129,17 +129,20 @@ body {
 /* Остальные стили проекта */
 /* ==================== */
 
+/* Стиль для обратного отсчёта */
 #countdown {
   font-size: 28px;
   margin-bottom: 20px;
   color: #fff;
 }
 
+/* Стиль для счёта мини-игры */
 #score {
   font-size: 24px;
   margin: 10px 0;
 }
 
+/* Стилизация предупреждения для не мобильных устройств */
 #non-mobile-warning {
   display: flex;
   align-items: center;
@@ -157,7 +160,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Не перехватываем клики, если они не нужны */
+  /* Убираем pointer-events, чтобы цветы стали интерактивными */
+  /* pointer-events: none; */
   overflow: hidden;
 }
 
@@ -177,12 +181,12 @@ body {
     opacity: 1;
   }
   100% {
-    /* Цветочек смещается ещё немного вправо (+50px) относительно текущего наклона */
     transform: translateX(calc(var(--tilt-offset) + 50px)) translateY(100vh) rotate(360deg);
     opacity: 0;
   }
 }
 
+/* Стилизация заголовка */
 h1 {
   font-family: 'Pacifico', cursive;
   font-size: 3em;
