@@ -160,7 +160,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Убираем pointer-events, чтобы цветы стали интерактивными */
+  /* pointer-events отключены для контейнера, но мы включаем их на самих цветочках */
   /* pointer-events: none; */
   overflow: hidden;
 }
@@ -172,6 +172,7 @@ body {
   animation: fall linear infinite;
   top: -50px; /* Начинаем анимацию выше экрана */
   cursor: pointer; /* Для интерактивности мини-игры */
+  pointer-events: auto; /* Явно разрешаем обработку кликов */
 }
 
 /* Ключевые кадры анимации падения цветочка с учётом наклона */
