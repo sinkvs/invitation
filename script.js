@@ -9,32 +9,29 @@ function isMobile() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Если устройство не мобильное, показываем предупреждение и скрываем основной контент
   if (!isMobile()) {
     document.getElementById("main-container").style.display = "none";
     document.getElementById("non-mobile-warning").style.display = "flex";
     return;
   }
 
-  // Обработка нажатия на кнопку: скрываем приветственную область и показываем приглашение
   var enterButton = document.getElementById("enter-button");
   enterButton.addEventListener("click", function (e) {
-    e.preventDefault(); // предотвращаем переход по ссылке
+    e.preventDefault();
     document.getElementById("welcome-area").style.display = "none";
     document.getElementById("invitation-area").style.display = "block";
-    updateCountdown(); // Запускаем таймер после нажатия кнопки
+    updateCountdown();
   });
 
   /**
    * Функция обновления обратного отсчёта до ближайших 10:00.
-   * Если текущее время больше или равно 10:00, то отсчёт ведётся до 10:00 следующего дня.
+   * Если текущее время >= 10:00, отсчёт ведётся до 10:00 следующего дня.
    */
   function updateCountdown() {
     var now = new Date();
     var target = new Date(now);
     target.setHours(10, 0, 0, 0);
     if (now.getHours() >= 10) {
-      // Если текущее время позже 10:00, устанавливаем цель на следующий день
       target.setDate(target.getDate() + 1);
     }
     var diff = target - now;
@@ -50,37 +47,71 @@ document.addEventListener("DOMContentLoaded", function () {
       seconds.toString().padStart(2, "0");
   }
 
-  // Обновляем обратный отсчёт каждую секунду
   setInterval(updateCountdown, 1000);
 
+  // Переменные для мини-игры
+  let score = 0;
+  const targetScore = 10;
+  const scoreEl = document.getElementById("score");
+  const congratsEl = document.getElementById("congrats");
+
+  // Интервал для создания цветочков – сохраняем id, чтобы при достижении цели можно было остановить генерацию
+  let flowerInterval = setInterval(createFlower, 500);
+
   /**
-   * Функция создания одного цветочка с рандомными параметрами:
-   * позиция по горизонтали, длительность анимации, задержка и размер.
+   * Функция создания одного цветочка с рандомными параметрами.
+   * Добавлен обработчик клика, который увеличивает счёт и удаляет цветочек.
    */
   function createFlower() {
     var flower = document.createElement("div");
     flower.className = "flower";
-    // Используем эмодзи цветка
     flower.innerText = "🌸";
-    // Случайная горизонтальная позиция (от 0% до 100%)
     flower.style.left = Math.random() * 100 + "%";
-    // Случайная длительность анимации от 5 до 10 секунд
     var duration = Math.random() * 5 + 5;
     flower.style.animationDuration = duration + "s";
-    // Случайная задержка перед началом анимации (до 5 секунд)
     flower.style.animationDelay = Math.random() * 5 + "s";
-    // Случайный размер цветочка (от 20px до 30px)
     var size = Math.random() * 10 + 20;
     flower.style.fontSize = size + "px";
 
+    // Добавляем обработчик для мини-игры
+    flower.addEventListener("click", function (e) {
+      // Увеличиваем счёт, обновляем счёт и удаляем элемент
+      score++;
+      updateScore();
+      flower.remove();
+      // Остановка дальнейшего распространения клика
+      e.stopPropagation();
+    });
+
     document.getElementById("flowers-container").appendChild(flower);
 
-    // Удаляем элемент после завершения анимации
     setTimeout(function () {
       flower.remove();
     }, duration * 1000);
   }
 
-  // Создаём новые цветочки каждые 500 мс
-  setInterval(createFlower, 500);
+  /**
+   * Функция обновления отображения счёта и проверки достижения цели.
+   */
+  function updateScore() {
+    scoreEl.innerText = "Собрано цветочков: " + score;
+    if (score >= targetScore) {
+      // Если цель достигнута – останавливаем генерацию цветочков и показываем поздравление
+      clearInterval(flowerInterval);
+      congratsEl.style.display = "block";
+    }
+  }
+
+  // Обработка жестов: обновляем CSS-переменную --tilt-offset в зависимости от наклона устройства.
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener("deviceorientation", function (event) {
+      // event.gamma – наклон устройства по горизонтали (в градусах)
+      let tilt = event.gamma;
+      if (tilt > 30) tilt = 30;
+      if (tilt < -30) tilt = -30;
+      // Преобразуем угол в пиксели (например, 1 градус ≈ 2px)
+      let offset = tilt * 2;
+      document.documentElement.style.setProperty("--tilt-offset", offset + "px");
+    });
+  }
 });
