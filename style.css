@@ -12,15 +12,16 @@
 
 /* Основной стиль для body */
 body {
-  font-family: 'Pacifico', cursive; /* Новый шрифт */
-  background: #ff69b4; /* Ярко-розовый фон */
-  color: #fff; /* Белый текст для контраста */
-  overflow: hidden; /* Скрываем скролл */
+  font-family: 'Pacifico', cursive;
+  background: #ff69b4;
+  color: #fff;
+  overflow: hidden;
 }
 
-/* Контейнер с основным содержимым */
+/* Контейнер с основным содержимым (UI) – располагается выше фоновых эффектов */
 #main-container {
   position: relative;
+  z-index: 10;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -38,11 +39,8 @@ body {
   text-align: center;
 }
 
-/* ==================== */
 /* Стили для анимированной кнопки */
-/* ==================== */
 .button {
-  /* Абсолютное позиционирование убрано, т.к. контейнер центрирован */
   padding: 30px 60px;
   color: #1670f0;
   text-transform: uppercase;
@@ -51,7 +49,7 @@ body {
   font-size: 30px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   overflow: hidden;
-  position: relative; /* Для позиционирования псевдоэлементов */
+  position: relative;
   display: inline-block;
 }
 
@@ -125,10 +123,6 @@ body {
   100% { transform: translateY(-100%); }
 }
 
-/* ==================== */
-/* Остальные стили проекта */
-/* ==================== */
-
 /* Стиль для обратного отсчёта */
 #countdown {
   font-size: 28px;
@@ -153,16 +147,16 @@ body {
   font-size: 20px;
 }
 
-/* Контейнер для анимации падающих цветочков */
+/* Контейнер для анимации падающих цветочков – расположен в нижней части экрана,
+   чтобы не перекрывать основной UI */
 #flowers-container {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  /* pointer-events отключены для контейнера, но мы включаем их на самих цветочках */
-  /* pointer-events: none; */
+  height: 40vh; /* ограничиваем область, где будут падать цветы */
   overflow: hidden;
+  z-index: 5;
 }
 
 /* Стили для отдельного цветочка */
@@ -170,9 +164,12 @@ body {
   position: absolute;
   font-size: 24px;
   animation: fall linear infinite;
-  top: -50px; /* Начинаем анимацию выше экрана */
-  cursor: pointer; /* Для интерактивности мини-игры */
-  pointer-events: auto; /* Явно разрешаем обработку кликов */
+  top: -50px;
+  cursor: pointer;
+  pointer-events: auto;
+  /* Убираем высокий z-index, чтобы цветочки не были поверх других элементов */
+  z-index: auto;
+  touch-action: manipulation;
 }
 
 /* Ключевые кадры анимации падения цветочка с учётом наклона */
@@ -182,12 +179,11 @@ body {
     opacity: 1;
   }
   100% {
-    transform: translateX(calc(var(--tilt-offset) + 50px)) translateY(100vh) rotate(360deg);
+    transform: translateX(calc(var(--tilt-offset) + 50px)) translateY(100%) rotate(360deg);
     opacity: 0;
   }
 }
 
-/* Стилизация заголовка */
 h1 {
   font-family: 'Pacifico', cursive;
   font-size: 3em;
