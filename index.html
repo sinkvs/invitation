@@ -12,7 +12,7 @@
   <div id="main-container">
     <div id="welcome-area">
       <h1>Привет, Надежда!</h1>
-      <!-- Новая кнопка вместо старой -->
+      <!-- Новая кнопка с анимацией (заменяет старую) -->
       <a href="#" id="enter-button" class="button">
         <span></span>
         <span></span>
@@ -23,13 +23,14 @@
     </div>
     <div id="invitation-area" style="display:none;">
       <div id="countdown"></div>
-      <p>Сюрприз уже близко...</p>
+      <!-- Счёт для мини-игры -->
+      <div id="score">Собрано цветочков: 0</div>
+      <!-- Поздравление, которое появляется при достижении цели -->
+      <p id="congrats" style="display:none;">Поздравляем, вы собрали все цветы!</p>
     </div>
     <div id="flowers-container"></div>
   </div>
-  <div id="non-mobile-warning" style="display:none;">
-    Это приложение только для мобильных устройств.
-  </div>
+  <div id="non-mobile-warning" style="display:none;">Это приложение только для мобильных устройств.</div>
   <script src="script.js"></script>
 </body>
 </html>
