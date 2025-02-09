@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Обработка нажатия на кнопку: скрываем приветственную область и показываем приглашение
   var enterButton = document.getElementById("enter-button");
-  enterButton.addEventListener("click", function () {
+  enterButton.addEventListener("click", function (e) {
+    e.preventDefault(); // предотвращаем переход по ссылке
     document.getElementById("welcome-area").style.display = "none";
     document.getElementById("invitation-area").style.display = "block";
     updateCountdown(); // Запускаем таймер после нажатия кнопки
