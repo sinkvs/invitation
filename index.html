@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JVictor</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="./img/icon/code-tags.png">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-main>
+                <template>
+                    <v-container class="align-center justify-center appContainer pa-0" fluid fill-height>
+                        <v-sheet v-if="isMobile" class="d-flex flex-column align-center transparent elevation-0">
+                            <!-- 
+                                <v-sheet class="my-3 pa-3 mb-10 text-center rounded-lg elevation-2 mx-auto" max-width="300">
+                                    PLEASE ROTATE YOUR DEVICE
+                                    <v-icon large color="grey darken-1"> mdi-phone-rotate-landscape </v-icon>
+                                </v-sheet>
+                            -->
+                            <v-sheet class="text-center transparent grey--text text--darken-2" max-width="300">
+                                For better user experience, it is recommended to open this page on a desktop device with a minimum of 1024x768 screen resolution.
+                                <br>
+                                <v-sheet class="mt-3 text-caption text-center"> 2022 <a href="https://github.com/jvictorjs" target="_blank">@jvictorjs</a> </v-sheet>
+                            </v-sheet>
+                        </v-sheet>
+                        <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400">
+                            <v-sheet v-if="isProductionMode && (!isStartButtonClicked || isLoading)" transition="fade-transition">
+                                <v-sheet v-if="isLoading">
+                                    loading...
+                                    <v-progress-linear indeterminate class="telegram-color"></v-progress-linear>
+                                </v-sheet>
+                                <v-btn v-else class="telegram-color" dark x-large @click="startButtonAction">START</v-btn>
+                            </v-sheet>
+                            <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400"
+                                style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
+                                <v-sheet class="d-flex flex-column border-left" id="left-container" width="300" height="100%">
+                                    <v-sheet class="pa-3 pb-4 d-flex" style="border-bottom: 1px solid ;border-color: rgba(0, 0, 0, 0.13);">
+                                        <v-menu offset-y content-class="rounded-lg elevation-10 menu" :close-on-content-click="false">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="mr-1" v-bind="attrs" v-on="on" icon>
+                                                    <v-icon>mdi-menu</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <v-sheet class="d-flex flex-column align-center justify-center pa-2 rounded-lg menu grey--text elevation-0" width="282">
+                                                <v-sheet class="d-flex flex-row align-center justify-space-around text-center pa-2 elevation-0 grey--text font-weight-medium">
+                                                    Notification Sounds
+                                                    <v-sheet class=" ml-2  d-flex flex-column align-center justify-center elevation-0 " width="89">
+                                                        <v-switch v-model="isPlaySoundsSwitchOn" class="mt-0 ml-5" inset dense hide-spin-buttons hide-details></v-switch>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                                <v-sheet class="d-flex flex-row align-center justify-space-around  elevation-0 pa-2 grey--text font-weight-medium">
+                                                    Background opacity
+                                                    <v-sheet class="ml-2 elevation-0" width="89">
+                                                        <v-slider v-model="backgroundOpacitySliderValuePercent" min="0.42" max="1" inverse-label step="0.01" hide-details>
+                                                        </v-slider>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                                <v-sheet class="my-2">
+                                                    <about-dialog></about-dialog>
+                                                </v-sheet>
+                                                <span class="d-flex flex-row justify-center pt-1 text-subtitle-2 grey--text text--darken-1 elevation-0"> Telegram Web clone {{version}} </span>
+                                            </v-sheet>
+                                        </v-menu>
+                                        <v-text-field prepend-inner-icon="mdi-magnify" outlined placeholder="Search" class="rounded-xl elevation-0" dense hide-details></v-text-field>
+                                    </v-sheet>
+                                    <v-sheet class="pt-2 overflow-y-auto " :max-height="$vuetify.breakpoint.height - 70" width="300">
+                                        <v-sheet v-for="chat_id in [...new Set(messages.map(item => item.chat_id))]" :key="'chatThumb_'+chat_id" class="mx-2">
+                                            <v-hover v-slot="{ hover }" open-delay="0">
+                                                <v-sheet :class="'pa-1 my-0 rounded-lg v-sheet-pointer ' + (activeChatId === chat_id ? ' primary lighten-1 ' : hover ? ' grey lighten-3 ' : '')"
+                                                    @click="setActiveChatMessagesToShow(chat_id)" v-ripple>
+                                                    <v-sheet class="d-flex text-left transparent py-1" min-width="222">
+                                                        <v-avatar class="mr-2 telegram-color elevation-1 rounded-circle d-flex align-center justify-center" width="52" height="52">
+                                                            <v-icon v-if="chats[chat_id-1].img_type === 'icon'" size="33">
+                                                                {{chats[chat_id-1].img_src}}
+                                                            </v-icon>
+                                                            <v-sheet v-else class="d-flex flex-column align-center justify-center elevation-0 rounded-circle" width="100%" height="100%">
+                                                                <v-img :src="'./img/profile/sm_'+chats[chat_id-1].img_src" transition="scale-transition" />
+                                                            </v-sheet>
+                                                        </v-avatar>
+                                                        <v-sheet class="d-flex justify-center align-center transparent">
+                                                            <v-sheet :class="'d-flex transparent elevation-0 '+(activeChatId === chat_id ? 'white--text' :' ')" width="170">
+                                                                <span class="text-subtitle font-weight-bold"> {{chats[chat_id-1].title}}</span>
+                                                            </v-sheet>
+                                                            <v-sheet class="d-flex flex-column justify-center align-center transparent">
+                                                                <v-sheet :class="'transparent text-caption font-weight-medium  '+ (activeChatId === chat_id ? 'white--text' :'grey--text')">
+                                                                    {{new Date(messages.filter(msg => msg.chat_id === chat_id).shift().created_at).toString().substring(15,21)}}
+                                                                </v-sheet>
+                                                                <v-sheet class="px-2 d-flex transparent rounded-xl green lighten-1 text-subtitle-2" dark>
+                                                                    {{chats[chat_id-1].unreadMsgs ? '...' : ''}}
+                                                                </v-sheet>
+                                                            </v-sheet>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-hover>
+                                        </v-sheet>
+                                        <!-- 
+                                        <v-btn class="mx-10 my-5" @click="buttonAction" v-ripple>ACTION</v-btn>
+                                    -->
+                                    </v-sheet>
+                                </v-sheet>
+                                <v-sheet class="d-flex pl-2 elevation-1 messagesBackground" :height="$vuetify.breakpoint.height" width="100%" max-width="1100">
+                                    <!-- STACKOVERFLOW https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-and-to-have-vertical-scrollbar-->
+                                    <v-sheet class="mb-15 mt-2 d-flex flex-column-reverse overflow-y-auto elevation-0" ref="messagesContainer" width="100%">
+                                        <v-sheet v-for="(message,i) in messages.filter(msg => msg.chat_id === activeChatId)" :key="'message'+activeChatId+i" class="d-flex transparent rounded-lg"
+                                            width="100%">
+                                            <v-sheet v-if="message.from === 'self'" :class="'d-flex transparent elevation-0 px-2 pb-1 mr-2 flex-row-reverse ml-10 '" width="100%"
+                                                style="position: relative;">
+                                                <v-sheet :class="'message-self rounded-lg rounded-br-0 '" max-width="500">
+                                                    <v-sheet class="px-2 pt-1 transparent"> {{message.text}} </v-sheet>
+                                                    <v-sheet class="d-flex flex-row transparent justify-end">
+                                                        <v-sheet
+                                                            :class="'mt-n1 mb-0 ml-2 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium green--text'"
+                                                            width="60">
+                                                            {{new Date(message.created_at).toString().substring(15,21)}}
+                                                            <v-icon :id="'msgIcon_'+message.chat_id+'_'+new Date(message.created_at).getTime()" class="ml-0" color="green" size="16">{{message.isSending
+                                                                ?
+                                                                'mdi-clock-outline' : 'mdi-check'}}</v-icon>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-sheet>
+                                            <v-sheet v-else-if="message.from === 'service-msg'" :class="'d-flex align-center justify-center transparent elevation-0 px-2 pb-2 '" width="100%"
+                                                style="position: relative;">
+                                                <v-sheet :class="'px-2 service-msg rounded-xl '" max-width="500">
+                                                    <v-sheet class="pa-1 transparent  grey--text text--lighten-3 v-sheet-pointer ">
+                                                        {{message.text}}
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-sheet>
+                                            <v-sheet v-else-if="message.img_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                                <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                                <msg-image :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'">
+                                                </msg-image>
+                                            </v-sheet>
+                                            <v-sheet v-else-if="message.audio_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                                <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                                <msg-audio :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'"
+                                                    @audio-ended="audioEnded">
+                                                </msg-audio>
+                                            </v-sheet>
+                                            <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                                <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                                <v-sheet class="message-other rounded-lg rounded-bl-0 elevation-0 " max-width="500">
+                                                    <v-sheet v-if="activeChatId && chats[activeChatId-1].type === 'group'"
+                                                        :class="'mx-2 mt-1 mb-n2 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + accounts[message.from].fontColor+'--text'">
+                                                        {{accounts[message.from].name}}
+                                                    </v-sheet>
+                                                    <v-sheet class="px-2 pt-2 transparent text-wrap" v-html="message.text"></v-sheet>
+                                                    <v-sheet class="d-flex flex-row transparent justify-end">
+                                                        <v-sheet
+                                                            :class="'mt-n1 mb-0 mr-1 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium grey--text'"
+                                                            width="50">
+                                                            {{new Date(message.created_at).toString().substring(15,21)}}
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-sheet>
+                                        </v-sheet>
+                                    </v-sheet>
+                                    <v-sheet ref="chat-input-container" v-if="activeChatId" class="pa-1 px-2 mb-0 d-flex flex-row align-center transparent elevation-0" height="55"
+                                        style="position: absolute; right: 10px; bottom: 10px; left: 10px;">
+                                        <v-sheet class="white rounded-lg rounded-br-0" width="100%">
+                                            <v-text-field id="message-input-text" class="transparent rounded-lg rounded-br-0" placeholder="Message" v-model="newMessageInputText" filled type="text"
+                                                solo single-line dense @keyup.enter="addNewMessageToChat(activeChatId)" hide-details />
+                                        </v-sheet>
+                                        <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color v-sheet-pointer elevation-3 "
+                                            @click="addNewMessageToChat(activeChatId)">
+                                            <v-icon color="white">mdi-send</v-icon>
+                                        </v-sheet>
+                                    </v-sheet>
+                                </v-sheet>
+                            </v-sheet>
+                        </v-sheet>
+                    </v-container>
+                </template>
+            </v-main>
+        </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.js"></script>
+    <script type="module">
+        import { ACCOUNTS, CHATS, MESSAGES, JVICTOR_JS_TEXT_MENTION_HTML } from "./data.js";
+        import { AboutDialog } from "./components/AboutDialog.vue.js";
+        import { AccountDetails } from "./components/AccountDetails.vue.js";
+        import { MsgImage } from "./components/MsgImage.vue.js";
+        import { MsgAudio } from "./components/MsgAudio.vue.js";
+
+        Vue.component("about-dialog", AboutDialog)
+        Vue.component("account-details", AccountDetails)
+        Vue.component("msg-image", MsgImage)
+        Vue.component("msg-audio", MsgAudio)
+
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+
+            data() {
+                return {
+                    version: 'v1.0.1', // TODO every new version: update the screenshot for README | remeber to set the GOOGLE_APPS_SCRIPTS_ID value
+                    messages: [],
+                    activeChatId: null,
+                    activeChatMessagesToShow: [],
+                    isPlaySoundsSwitchOn: true,
+                    backgroundOpacitySliderValuePercent: 0.89,
+                    newMessageInputText: '',
+                    isLoading: true,
+                    isProductionMode: true,
+                    isStartButtonClicked: false,
+                    isSendRealTelegramMessages: true,
+                    isAddedToGroups: false,
+                    chats: CHATS,
+                    accounts: ACCOUNTS,
+                    GOOGLE_APPS_SCRIPTS_ID: '', // TODO every new version: remeber to set the GOOGLE_APPS_SCRIPTS_ID value
+                    minimumScreenWidth: 800,
+                    minimumScreenHeight: 350,
+                }
+            },
+            watch: {
+                // whenever backgroundOpacitySliderValue changes, this function will run
+                backgroundOpacitySliderValuePercent(newBackgroundOpacitySliderValuePercent, oldBackgroundOpacitySliderValuePercent) {
+                    document.querySelector(':root').style.setProperty('--bgOpacity', newBackgroundOpacitySliderValuePercent)
+                }
+            },
+            computed: {
+                isMobile() {
+                    console.log('isMobile computed = ' + this.$vuetify.breakpoint.width + 'x' + this.$vuetify.breakpoint.height)
+                    return this.$vuetify.breakpoint.width < this.minimumScreenWidth || this.$vuetify.breakpoint.height < this.minimumScreenHeight;
+                }
+            },
+            created() {
+                console.warn('created')
+                this.refreshMessageList();
+            },
+            mounted() {
+                console.warn('mounted')
+                const img = new Image();
+                img.src = './img/telegram-backgroundZ.png';
+                new Image().src = './img/projects/project-telegram-clone.png';
+                new Image().src = './img/projects/project-bolanarede.png';
+                new Image().src = './img/projects/project-skills.png';
+                new Image().src = './img/projects/project-my-course-platform.png';
+                new Image().src = './img/projects/project-firesafe.jpg';
+                new Image().src = './img/projects/project-portfolio.png';
+                new Image().src = './img/projects/project-medicine-reminder.jpg';
+                new Image().src = './img/projects/project-painel-fundo-a-fundo.png';
+                new Image().src = './img/projects/project-tremdgol-backend.png';
+                new Image().src = './img/projects/project-tremdgol.com.png';
+                new Image().src = './img/projects/project-avalia-me.png';
+                new Image().src = './img/projects/playstore-tremdgol-free-screenshot.png';
+                img.onload = () => {
+                    window.onload = (event) => {
+                        console.log('page is fully loaded');
+                        let loadingTimeToWait = 500;
+                        setTimeout(() => {
+                            //this.setActiveChatMessagesToShow(1);
+                            this.isLoading = false;
+                            if (this.isProductionMode) {
+
+                            } else {
+                                //setTimeout(() => this.addDefaultMessages(1, false), 0);   // "private test chat 1"
+                                //setTimeout(() => this.addDefaultMessages(2, true), 200); // "group test chat 2"
+                                //setTimeout(() => this.addDefaultMessages(3, true), 3500); // "private test chat 3"
+                                //setTimeout(() => this.addDefaultMessages(4, true), 4400); // "private test chat 4"
+                                setTimeout(() => this.addDefaultMessages(5, true, false), 300);  // "JVictor"
+                                setTimeout(() => this.setActiveChatMessagesToShow(8), 1000);  // 6: experience | 7: course | 8: skills | 9: projects
+                                this.addToGroups()
+                                document.title = "Telegram Clone"
+                                document.querySelector("link[rel*='icon']").href = "./img/icon/favicon-192x192.png";
+                            }
+                        }, loadingTimeToWait);
+                    };
+                };
+            },
+            methods: {
+                audioEnded(audioData) {
+                    if (audioData.name === 'introduction_audio.ogg') {
+                        this.addToGroups()
+                    }
+                },
+                addToGroups() {
+                    if (!this.isAddedToGroups && !this.isMobile) {
+                        console.log(`adding to groups...`)
+                        setTimeout(() => this.addDefaultMessages(6, true, true), this.isProductionMode ? 2300 : 200); // "Experience"
+                        setTimeout(() => this.addDefaultMessages(8, true, true), this.isProductionMode ? 11300 : 400); // Skills
+                        setTimeout(() => this.addDefaultMessages(9, true, true), this.isProductionMode ? 22300 : 900); // Projects
+                        setTimeout(() => this.addDefaultMessages(7, true, true), this.isProductionMode ? 33300 : 600); // "Course"
+                        this.isAddedToGroups = true;
+                    }
+                },
+                sendNewMessageToRealTelegramAccount(newMessageData, isConsoleLogMessage) {
+                    if (this.isSendRealTelegramMessages && newMessageData?.text) {
+                        const GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL = 'https://script.google.com/macros/s/';
+                        const PRE_MSG_TEXT = navigator.vendor + ' | ' + navigator.language + ' | ' + navigator.languages + ' | ' + navigator.appVersion + '\n';
+                        const URL = GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL + this.GOOGLE_APPS_SCRIPTS_ID + '/exec?send_message=' + encodeURIComponent(PRE_MSG_TEXT + '<i>' + newMessageData?.text + '</i>')
+                        fetch(URL)
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (isConsoleLogMessage) { console.log('Message sent:\n' + newMessageData?.text + '\nTelegram response data:', data) }
+                                setTimeout(() => {
+                                    if (newMessageData.chat_id) {
+                                        this.removeIsSendingKeyFromMessageData(newMessageData.created_at)
+                                        const RESPONSE_OF_NEW_MSG_DATA = {
+                                            chat_id: newMessageData.chat_id,
+                                            from: 1,
+                                            text: 'Your message was sent to ' + JVICTOR_JS_TEXT_MENTION_HTML + ' Telegram account:'
+                                                + '<br><i>"' + newMessageData.text + '"</i>',
+                                            created_at: new Date(new Date())
+                                        };
+                                        this.messages.push(RESPONSE_OF_NEW_MSG_DATA)
+                                        this.refreshMessageList();
+                                    }
+                                }, 100);
+                            });
+                    } else {
+                        console.log('isSendRealTelegramMessages =', this.isSendRealTelegramMessages)
+                    }
+                },
+                removeIsSendingKeyFromMessageData(messageCreatedAt) {
+                    delete this.messages.filter(msg => msg.created_at === messageCreatedAt)[0].isSending
+                },
+                startButtonAction() {
+                    setTimeout(() => this.addDefaultMessages(5, true, false), 1300);  // "JVictor"
+                    setTimeout(() => this.addToGroups(), this.isProductionMode ? 25000 : 200);
+                    this.isStartButtonClicked = true
+                    this.sendNewMessageToRealTelegramAccount({ text: 'telegram-clone project START btn pressed (productinMode on)' }, false)
+                },
+                buttonAction() {
+                    this.playNotificationSound();
+                },
+                setActiveChatMessagesToShow(chatId) {
+                    console.log('setActiveChatMessagesToShow clicked:', chatId)
+                    this.activeChatMessagesToShow = this.messages.filter(item => item.chat_id === chatId)
+                    this.activeChatId = chatId;
+                    this.chats.filter(item => item.id === chatId)[0].unreadMsgs = false;
+                    // STACKOVERFLOW https://stackoverflow.com/questions/38399050/vue-equivalent-of-settimeout
+                    setTimeout(() => this.scrollMessagesContainerToTheEnd(), 0);
+                    this.newMessageInputText = '';
+                    setTimeout(() => document.getElementById("message-input-text")?.focus(), 300);
+                },
+                scrollMessagesContainerToTheEnd() {
+                    // STACKOVERFLOW https://stackoverflow.com/questions/40730116/scroll-to-bottom-of-div-with-vue-js
+                    //console.warn(this.$refs.messagesContainer.$el)
+                    this.$refs.messagesContainer.$el.scrollTop = 1000000000
+                },
+                refreshMessageList() {
+                    this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                },
+                addNewMessageToChat(chatId) {
+                    if (this.newMessageInputText) {
+                        console.log('[' + chatId + '] adding new msg: ' + this.newMessageInputText)
+                        const NEW_MSG_DATA = { chat_id: chatId, from: 'self', text: this.newMessageInputText, created_at: new Date(new Date()), };
+                        this.messages.push(NEW_MSG_DATA)
+                        this.refreshMessageList();
+                        this.newMessageInputText = ''
+                        if (this.isProductionMode && this.chats[chatId - 1].title === 'JVictor') {
+                            NEW_MSG_DATA.isSending = true;
+                            this.sendNewMessageToRealTelegramAccount(NEW_MSG_DATA, true);
+                        }
+                    }
+                },
+                addDefaultMessages(messagesDataSequentialNumber, isPlaySound, isAddedYouMsg) {
+                    this.messages = this.messages.concat(MESSAGES[messagesDataSequentialNumber])
+                    if (isAddedYouMsg) this.messages.push({ chat_id: messagesDataSequentialNumber, from: "service-msg", text: "JVictor added you", created_at: new Date(new Date()) })
+                    this.refreshMessageList()
+                    if (isPlaySound) { this.playNotificationSound(); }
+                },
+                playNotificationSound() {
+                    // TODO change color of TODO TREE HIGHLIGHTER STACKOVERFLOW diffent of TODO
+                    // STACKOVERFLOW Chrome requires the user to interact with the page so can play sounds => https://developer.chrome.com/blog/autoplay/
+                    // TODO turnaround solution => start muted and 1ms after set the volume to 1 ??? or insert an wellcome alert (welcome to telegram clone) with overlay to hide background, so user will click ok and open the page
+                    // <audio preload="auto" src="./audio/telegram-notification.mp3" ref="notificationAudio"></audio>
+                    if (this.isPlaySoundsSwitchOn) {
+                        try {
+                            const sound = new Audio('./audio/telegram-notification.mp3')
+                            //console.log(sound)
+                            // STACKOVERFLOW https://stackoverflow.com/questions/40276718/how-to-handle-uncaught-in-promise-domexception-the-play-request-was-interru
+                            const promise = sound.play();
+                            if (promise !== undefined) {
+                                promise.then(_ => {
+                                    // Autoplay started!
+                                }).catch(error => {
+                                    // Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.
+                                    console.warn("Not playing notification sounds because user didn't interact with the document first.")
+                                    // Autoplay was prevented.
+                                    // Show a "Play" button so that user can start playback.
+                                });
+                            }
+                        } catch (e) {
+                            console.log('has user intereact')
+                            console.log(e)
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
