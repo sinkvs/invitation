@@ -1,27 +1,55 @@
 const userAnswers = [];
+const questionsData = [
+    { question: "2 + 3 = ?", options: ['5', '4', '6'], correctAnswer: '5' },
+    { question: "4 * 5 = ?", options: ['20', '25', '18'], correctAnswer: '20' },
+    { question: "6 - 2 = ?", options: ['4', '3', '5'], correctAnswer: '4' },
+    { question: "3 * 7 = ?", options: ['21', '24', '19'], correctAnswer: '21' },
+    { question: "8 + 4 = ?", options: ['12', '10', '11'], correctAnswer: '12' },
+];
+
+let currentQuestionIndex = 0;
+
+function shuffleOptions(options) {
+    for (let i = options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [options[i], options[j]] = [options[j], options[i]];
+    }
+    return options;
+}
+
+function showQuestion(index) {
+    const questionData = questionsData[index];
+    const shuffledOptions = shuffleOptions(questionData.options);
+
+    document.getElementById('questionText').innerText = questionData.question;
+
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = ''; // Очистка предыдущих вариантов
+
+    shuffledOptions.forEach((option, idx) => {
+        const button = document.createElement('button');
+        button.innerText = option;
+        button.onclick = () => selectAnswer(index, option);
+        optionsContainer.appendChild(button);
+    });
+}
 
 function selectAnswer(questionIndex, answer) {
     userAnswers[questionIndex] = answer;
-    showNextQuestion(questionIndex);
-}
+    currentQuestionIndex++;
 
-function showNextQuestion(currentIndex) {
-    document.getElementById(`question${currentIndex + 1}`).classList.remove('active');
-    const nextIndex = currentIndex + 1;
-
-    if (nextIndex < 5) {
-        document.getElementById(`question${nextIndex + 1}`).classList.add('active');
+    if (currentQuestionIndex < questionsData.length) {
+        showQuestion(currentQuestionIndex);
     } else {
         checkAnswers();
     }
 }
 
 function checkAnswers() {
-    const correctAnswers = ['5', '20', '4', '21', '12'];
     let allCorrect = true;
 
-    for (let i = 0; i < correctAnswers.length; i++) {
-        if (userAnswers[i] !== correctAnswers[i]) {
+    for (let i = 0; i < questionsData.length; i++) {
+        if (userAnswers[i] !== questionsData[i].correctAnswer) {
             allCorrect = false;
             break;
         }
@@ -44,7 +72,8 @@ function closeModal() {
 
 function resetTest() {
     userAnswers.length = 0; // Очистка массива ответов
-    document.getElementById('question1').classList.add('active');
+    currentQuestionIndex = 0;
+    showQuestion(currentQuestionIndex);
     closeModal();
 }
 
@@ -53,3 +82,6 @@ window.addEventListener('beforeunload', function (e) {
         window.location.href = 'index.html';
     }
 });
+
+// Показать первый вопрос при загрузке страницы
+showQuestion(currentQuestionIndex);
