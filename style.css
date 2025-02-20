@@ -11,6 +11,7 @@ body {
     box-sizing: border-box;
 }
 
+
 .loading, .chat, .test, .final {
     display: flex;
     flex-direction: column;
