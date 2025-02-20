@@ -1,28 +1,65 @@
 body {
-  text-align: center;
-  font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f8ff;
 }
 
 .loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.chat,
-.test,
-.final {
-  display: none;
+.loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.chat {
+    display: none;
+    flex-direction: column;
+    align-items: center;
 }
 
 .message {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e1f5fe;
+}
+
+.test {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.final {
+    display: none;
+    flex-direction: column;
+    align-items: center;
 }
 
 .emoji {
-  position: absolute;
-  font-size: 24px;
+    position: absolute;
+    animation: float 5s infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-50px); }
+    100% { transform: translateY(0); }
 }
