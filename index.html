@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Поздравление</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8 Марта</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="loading">
-    <div>🔄 Loading...</div>
-    <p>Пожалуйста, включите звук</p>
-    <button onclick="startChat()">Я включил(а) звук</button>
-  </div>
-  
-  <div class="chat">
-    <div id="chatWindow"></div>
-  </div>
-  
-  <div class="test">
-    <p>Решите: <span id="num1"></span> × <span id="num2"></span></p>
-    <input type="number" id="answer">
-    <button onclick="checkAnswer()">Ответить</button>
-  </div>
-  
-  <div class="final">
-    <h2>Поздравляем с 8 марта!</h2>
-    <p>Приглашаем в кабинет №1 в 10:00</p>
-    <h3 id="randomNumber"></h3>
-  </div>
-  
-  <script src="script.js"></script>
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+        <p>Включите звук</p>
+        <button onclick="startChat()">Звук включен</button>
+    </div>
+
+    <div class="chat" id="chat">
+        <div class="message">Привет!</div>
+        <div class="message">Как ваши дела?</div>
+        <div class="message">Сегодня отличный день!</div>
+        <button onclick="startTest()">Продолжить</button>
+    </div>
+
+    <div class="test" id="test">
+        <div class="message">Тест на умножение:</div>
+        <div class="message">2 * 3 = ?</div>
+        <input type="text" id="answer" placeholder="Ваш ответ">
+        <button onclick="checkAnswer()">Проверить</button>
+    </div>
+
+    <div class="final" id="final">
+        <div class="message" id="congrats">Поздравляем с 8 Марта!</div>
+        <div class="message">Ваше число: <span id="randomNumber"></span></div>
+        <div class="message">Приглашаем в кабинет №1 в 10:00</div>
+        <div class="emoji" style="top: 10%; left: 10%;">🌷</div>
+        <div class="emoji" style="top: 30%; left: 70%;">🌷</div>
+        <div class="emoji" style="top: 60%; left: 40%;">🌷</div>
+        <div class="emoji" style="top: 90%; left: 80%;">🌷</div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
