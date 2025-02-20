@@ -27,7 +27,7 @@ function showQuestion(index) {
     const optionsContainer = document.getElementById('optionsContainer');
     optionsContainer.innerHTML = ''; // Очистка предыдущих вариантов
 
-    shuffledOptions.forEach((option, idx) => {
+    shuffledOptions.forEach((option) => {
         const button = document.createElement('button');
         button.innerText = option;
         button.onclick = () => selectAnswer(index, option);
