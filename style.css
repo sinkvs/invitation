@@ -9,6 +9,7 @@ body {
     background-color: #ffe6e6; /* Слегка розовый фон */
     padding: 20px;
     box-sizing: border-box;
+    overflow: hidden; /* Предотвращает появление скролла */
 }
 
 .loading, .chat, .test, .final {
@@ -17,6 +18,7 @@ body {
     align-items: center;
     width: 100%;
     max-width: 500px;
+    position: relative; /* Для позиционирования эмодзи */
 }
 
 .loader {
