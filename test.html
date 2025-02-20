@@ -8,31 +8,92 @@
 </head>
 <body>
     <div class="test">
-        <div class="message">Тест на умножение:</div>
-        <div class="message">2 * 3 = ?</div>
-        <input type="text" id="answer" placeholder="Ваш ответ">
-        <button onclick="checkAnswer()">Проверить</button>
+        <div class="message">Для получения кода тебе необходимо правильно ответить на все вопросы:</div>
+
+        <div class="question">
+            <div class="message">1. 2 + 3 = ?</div>
+            <button onclick="selectAnswer(1, '5')">5</button>
+            <button onclick="selectAnswer(1, '6')">6</button>
+        </div>
+
+        <div class="question">
+            <div class="message">2. 4 * 5 = ?</div>
+            <button onclick="selectAnswer(2, '20')">20</button>
+            <button onclick="selectAnswer(2, '25')">25</button>
+        </div>
+
+        <div class="question">
+            <div class="message">3. 6 - 2 = ?</div>
+            <button onclick="selectAnswer(3, '4')">4</button>
+            <button onclick="selectAnswer(3, '3')">3</button>
+        </div>
+
+        <div class="question">
+            <div class="message">4. 3 * 7 = ?</div>
+            <button onclick="selectAnswer(4, '21')">21</button>
+            <button onclick="selectAnswer(4, '24')">24</button>
+        </div>
+
+        <div class="question">
+            <div class="message">5. 8 + 4 = ?</div>
+            <button onclick="selectAnswer(5, '12')">12</button>
+            <button onclick="selectAnswer(5, '10')">10</button>
+        </div>
+
+        <button onclick="checkAnswers()">Проверить</button>
+    </div>
+
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Вы неправильно ответили на один или несколько вопросов. Попробуйте снова!</p>
+        </div>
     </div>
 
     <script>
-        function checkAnswer() {
-            const answer = document.getElementById('answer').value;
-            if (answer == '6') {
+        const userAnswers = {};
+
+        function selectAnswer(questionNumber, answer) {
+            userAnswers[questionNumber] = answer;
+        }
+
+        function checkAnswers() {
+            const correctAnswers = {
+                1: '5',
+                2: '20',
+                3: '4',
+                4: '21',
+                5: '12',
+            };
+
+            let allCorrect = true;
+            for (let question in correctAnswers) {
+                if (userAnswers[question] !== correctAnswers[question]) {
+                    allCorrect = false;
+                    break;
+                }
+            }
+
+            if (allCorrect) {
                 window.location.href = 'invitation.html';
             } else {
-                alert('Неправильно, попробуйте еще раз!');
+                showErrorModal();
             }
         }
-    </script>
 
-    <script>
-    // Перенаправляет на index.html только при обновлении страницы
-    window.addEventListener('beforeunload', function (e) {
-        if (window.location.pathname !== '/index.html') {
-            window.location.href = 'index.html';
+        function showErrorModal() {
+            document.getElementById('errorModal').style.display = 'flex';
         }
-    });
+
+        function closeModal() {
+            document.getElementById('errorModal').style.display = 'none';
+        }
+
+        window.addEventListener('beforeunload', function (e) {
+            if (window.location.pathname !== '/index.html') {
+                window.location.href = 'index.html';
+            }
+        });
     </script>
-    
 </body>
 </html>
