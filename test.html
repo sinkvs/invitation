@@ -21,40 +21,9 @@
 <body>
     <div class="test" id="test">
         <div class="message">Для получения кода тебе необходимо правильно ответить на все вопросы:</div>
-
-        <div id="question1" class="question active">
-            <div class="message">2 + 3 = ?</div>
-            <button onclick="selectAnswer(0, '5')">5</button>
-            <button onclick="selectAnswer(0, '4')">4</button>
-            <button onclick="selectAnswer(0, '6')">6</button>
-        </div>
-
-        <div id="question2" class="question">
-            <div class="message">4 * 5 = ?</div>
-            <button onclick="selectAnswer(1, '20')">20</button>
-            <button onclick="selectAnswer(1, '25')">25</button>
-            <button onclick="selectAnswer(1, '18')">18</button>
-        </div>
-
-        <div id="question3" class="question">
-            <div class="message">6 - 2 = ?</div>
-            <button onclick="selectAnswer(2, '4')">4</button>
-            <button onclick="selectAnswer(2, '3')">3</button>
-            <button onclick="selectAnswer(2, '5')">5</button>
-        </div>
-
-        <div id="question4" class="question">
-            <div class="message">3 * 7 = ?</div>
-            <button onclick="selectAnswer(3, '21')">21</button>
-            <button onclick="selectAnswer(3, '24')">24</button>
-            <button onclick="selectAnswer(3, '19')">19</button>
-        </div>
-
-        <div id="question5" class="question">
-            <div class="message">8 + 4 = ?</div>
-            <button onclick="selectAnswer(4, '12')">12</button>
-            <button onclick="selectAnswer(4, '10')">10</button>
-            <button onclick="selectAnswer(4, '11')">11</button>
+        <div id="questionContainer">
+            <div class="message" id="questionText"></div>
+            <div id="optionsContainer"></div>
         </div>
     </div>
 
