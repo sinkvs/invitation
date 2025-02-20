@@ -11,8 +11,7 @@
         <div class="message">Для получения кода тебе необходимо правильно ответить на все вопросы:</div>
         <div id="questionContainer">
             <div class="message" id="questionText">1. 2 + 3 = ?</div>
-            <button onclick="selectAnswer(1, '5')">5</button>
-            <button onclick="selectAnswer(1, '4')">4</button>
+            <div id="optionsContainer"></div>
         </div>
     </div>
 
@@ -40,14 +39,14 @@
             const questionData = questions[index];
             document.getElementById('questionText').innerText = questionData.question;
 
-            const container = document.getElementById('questionContainer');
-            container.innerHTML = `<div class="message">${questionData.question}</div>`;
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = ''; // Очистка предыдущих вариантов
 
             questionData.options.forEach((option, idx) => {
                 const button = document.createElement('button');
                 button.innerText = option;
                 button.onclick = () => selectAnswer(index, option);
-                container.appendChild(button);
+                optionsContainer.appendChild(button);
             });
         }
 
