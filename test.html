@@ -7,68 +7,65 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="test">
+    <div class="test" id="test">
         <div class="message">Для получения кода тебе необходимо правильно ответить на все вопросы:</div>
-
-        <div class="question">
-            <div class="message">1. 2 + 3 = ?</div>
+        <div id="questionContainer">
+            <div class="message" id="questionText">1. 2 + 3 = ?</div>
             <button onclick="selectAnswer(1, '5')">5</button>
-            <button onclick="selectAnswer(1, '6')">6</button>
+            <button onclick="selectAnswer(1, '4')">4</button>
         </div>
-
-        <div class="question">
-            <div class="message">2. 4 * 5 = ?</div>
-            <button onclick="selectAnswer(2, '20')">20</button>
-            <button onclick="selectAnswer(2, '25')">25</button>
-        </div>
-
-        <div class="question">
-            <div class="message">3. 6 - 2 = ?</div>
-            <button onclick="selectAnswer(3, '4')">4</button>
-            <button onclick="selectAnswer(3, '3')">3</button>
-        </div>
-
-        <div class="question">
-            <div class="message">4. 3 * 7 = ?</div>
-            <button onclick="selectAnswer(4, '21')">21</button>
-            <button onclick="selectAnswer(4, '24')">24</button>
-        </div>
-
-        <div class="question">
-            <div class="message">5. 8 + 4 = ?</div>
-            <button onclick="selectAnswer(5, '12')">12</button>
-            <button onclick="selectAnswer(5, '10')">10</button>
-        </div>
-
-        <button onclick="checkAnswers()">Проверить</button>
     </div>
 
     <div id="errorModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <p>Вы неправильно ответили на один или несколько вопросов. Попробуйте снова!</p>
+            <button onclick="resetTest()">Повторить тест</button>
         </div>
     </div>
 
     <script>
-        const userAnswers = {};
+        const questions = [
+            { question: "1. 2 + 3 = ?", options: ['5', '4'], correctAnswer: '5' },
+            { question: "2. 4 * 5 = ?", options: ['20', '25'], correctAnswer: '20' },
+            { question: "3. 6 - 2 = ?", options: ['4', '3'], correctAnswer: '4' },
+            { question: "4. 3 * 7 = ?", options: ['21', '24'], correctAnswer: '21' },
+            { question: "5. 8 + 4 = ?", options: ['12', '10'], correctAnswer: '12' },
+        ];
 
-        function selectAnswer(questionNumber, answer) {
-            userAnswers[questionNumber] = answer;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+
+        function showQuestion(index) {
+            const questionData = questions[index];
+            document.getElementById('questionText').innerText = questionData.question;
+
+            const container = document.getElementById('questionContainer');
+            container.innerHTML = `<div class="message">${questionData.question}</div>`;
+
+            questionData.options.forEach((option, idx) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => selectAnswer(index, option);
+                container.appendChild(button);
+            });
+        }
+
+        function selectAnswer(index, answer) {
+            userAnswers[index] = answer;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(currentQuestionIndex);
+            } else {
+                checkAnswers();
+            }
         }
 
         function checkAnswers() {
-            const correctAnswers = {
-                1: '5',
-                2: '20',
-                3: '4',
-                4: '21',
-                5: '12',
-            };
-
             let allCorrect = true;
-            for (let question in correctAnswers) {
-                if (userAnswers[question] !== correctAnswers[question]) {
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] !== questions[i].correctAnswer) {
                     allCorrect = false;
                     break;
                 }
@@ -89,11 +86,21 @@
             document.getElementById('errorModal').style.display = 'none';
         }
 
+        function resetTest() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            showQuestion(currentQuestionIndex);
+            closeModal();
+        }
+
         window.addEventListener('beforeunload', function (e) {
             if (window.location.pathname !== '/index.html') {
                 window.location.href = 'index.html';
             }
         });
+
+        // Показать первый вопрос при загрузке страницы
+        showQuestion(currentQuestionIndex);
     </script>
 </body>
 </html>
