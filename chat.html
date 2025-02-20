@@ -13,5 +13,13 @@
         <div class="message">Сегодня отличный день!</div>
         <a href="test.html"><button>Продолжить</button></a>
     </div>
+    
+    <script>
+    // Перенаправляет на index.html при загрузке страницы, если это не index.html
+    if (window.location.pathname !== '/index.html') {
+        window.location.href = 'index.html';
+    }
+    </script>
+
 </body>
 </html>
