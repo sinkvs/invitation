@@ -25,5 +25,13 @@
     <script>
         document.getElementById('randomNumber').innerText = Math.floor(1111 + Math.random() * 8889);
     </script>
+
+    <script>
+    // Перенаправляет на index.html при загрузке страницы, если это не index.html
+    if (window.location.pathname !== '/index.html') {
+        window.location.href = 'index.html';
+    }
+    </script>
+    
 </body>
 </html>
