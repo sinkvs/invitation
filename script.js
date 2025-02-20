@@ -10,6 +10,7 @@ const questionsData = [
 let currentQuestionIndex = 0;
 
 function shuffleOptions(options) {
+    // Алгоритм Фишера-Йетса для перемешивания массива
     for (let i = options.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [options[i], options[j]] = [options[j], options[i]];
@@ -19,7 +20,7 @@ function shuffleOptions(options) {
 
 function showQuestion(index) {
     const questionData = questionsData[index];
-    const shuffledOptions = shuffleOptions(questionData.options);
+    const shuffledOptions = shuffleOptions([...questionData.options]); // Перемешивание копии массива
 
     document.getElementById('questionText').innerText = questionData.question;
 
