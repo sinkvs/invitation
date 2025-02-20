@@ -5,13 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тест</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Дополнительные стили для скрытия вопросов */
+        .question {
+            display: none;
+        }
+        .question.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <div class="test" id="test">
         <div class="message">Для получения кода тебе необходимо правильно ответить на все вопросы:</div>
-        <div id="questionContainer">
-            <div class="message" id="questionText">1. 2 + 3 = ?</div>
-            <div id="optionsContainer"></div>
+
+        <div id="question1" class="question active">
+            <div class="message">1. 2 + 3 = ?</div>
+            <button onclick="selectAnswer(0, '5')">5</button>
+            <button onclick="selectAnswer(0, '4')">4</button>
+        </div>
+
+        <div id="question2" class="question">
+            <div class="message">2. 4 * 5 = ?</div>
+            <button onclick="selectAnswer(1, '20')">20</button>
+            <button onclick="selectAnswer(1, '25')">25</button>
+        </div>
+
+        <div id="question3" class="question">
+            <div class="message">3. 6 - 2 = ?</div>
+            <button onclick="selectAnswer(2, '4')">4</button>
+            <button onclick="selectAnswer(2, '3')">3</button>
+        </div>
+
+        <div id="question4" class="question">
+            <div class="message">4. 3 * 7 = ?</div>
+            <button onclick="selectAnswer(3, '21')">21</button>
+            <button onclick="selectAnswer(3, '24')">24</button>
+        </div>
+
+        <div id="question5" class="question">
+            <div class="message">5. 8 + 4 = ?</div>
+            <button onclick="selectAnswer(4, '12')">12</button>
+            <button onclick="selectAnswer(4, '10')">10</button>
         </div>
     </div>
 
@@ -23,83 +58,6 @@
         </div>
     </div>
 
-    <script>
-        const questions = [
-            { question: "1. 2 + 3 = ?", options: ['5', '4'], correctAnswer: '5' },
-            { question: "2. 4 * 5 = ?", options: ['20', '25'], correctAnswer: '20' },
-            { question: "3. 6 - 2 = ?", options: ['4', '3'], correctAnswer: '4' },
-            { question: "4. 3 * 7 = ?", options: ['21', '24'], correctAnswer: '21' },
-            { question: "5. 8 + 4 = ?", options: ['12', '10'], correctAnswer: '12' },
-        ];
-
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-
-        function showQuestion(index) {
-            const questionData = questions[index];
-            document.getElementById('questionText').innerText = questionData.question;
-
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = ''; // Очистка предыдущих вариантов
-
-            questionData.options.forEach((option, idx) => {
-                const button = document.createElement('button');
-                button.innerText = option;
-                button.onclick = () => selectAnswer(index, option);
-                optionsContainer.appendChild(button);
-            });
-        }
-
-        function selectAnswer(index, answer) {
-            userAnswers[index] = answer;
-            currentQuestionIndex++;
-
-            if (currentQuestionIndex < questions.length) {
-                showQuestion(currentQuestionIndex);
-            } else {
-                checkAnswers();
-            }
-        }
-
-        function checkAnswers() {
-            let allCorrect = true;
-            for (let i = 0; i < questions.length; i++) {
-                if (userAnswers[i] !== questions[i].correctAnswer) {
-                    allCorrect = false;
-                    break;
-                }
-            }
-
-            if (allCorrect) {
-                window.location.href = 'invitation.html';
-            } else {
-                showErrorModal();
-            }
-        }
-
-        function showErrorModal() {
-            document.getElementById('errorModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('errorModal').style.display = 'none';
-        }
-
-        function resetTest() {
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            showQuestion(currentQuestionIndex);
-            closeModal();
-        }
-
-        window.addEventListener('beforeunload', function (e) {
-            if (window.location.pathname !== '/index.html') {
-                window.location.href = 'index.html';
-            }
-        });
-
-        // Показать первый вопрос при загрузке страницы
-        showQuestion(currentQuestionIndex);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
